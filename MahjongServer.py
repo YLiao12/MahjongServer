@@ -25,7 +25,7 @@ def get_playerid():
             break
         except Exception:
             conn.ping(True)
-    result = cursor.fetchone()
+    result = cursor.fetchall()
     jsonResult = json.dumps(result)
     return jsonify(id = jsonResult)
 
