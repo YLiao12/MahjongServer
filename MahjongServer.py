@@ -16,6 +16,19 @@ cursor = conn.cursor(dictionary = True)
 def hello_world():
     return "Hello World!"
 
+@app.route("/player_id")
+def get_playerid():
+    get_id = "select player_id from players order by player_id desc limit 0,1"
+    while True:
+        try:
+            cursor.execute(get_id)
+            break
+        except Exception:
+            conn.ping(True)
+    result = cursor.fetchone()
+    jsonResult = json.dumps(result)
+    return jsonify(id = jsonResult)
+
 @app.route("/create_player", methods=["POST"])
 def create_player():
     player_name = request.form.get("player_name")
