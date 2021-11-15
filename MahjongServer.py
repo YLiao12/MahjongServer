@@ -35,7 +35,7 @@ def get_tables():
     # get records from mysql
     # change records into json
     # return json
-    query_tables = "SELECT * FROM mj_tables ORDER BY id ASC"
+    query_tables = "SELECT * FROM mj_tables ORDER BY table_id ASC"
     while True:
         try:
             cursor.execute(query_tables)
