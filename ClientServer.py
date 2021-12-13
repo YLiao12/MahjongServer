@@ -106,7 +106,7 @@ def coming_into_table():
 def leaving_tables():
     table_id = request.form.get("table_id")
     player_id = request.form.get("player_id")
-    query_player_num = "select players_num from mj_table where table_id = %s;"
+    query_player_num = "select players_num from mj_tables where table_id = %s;"
     query_player_num_param = (table_id, )
     while True:
         try:
