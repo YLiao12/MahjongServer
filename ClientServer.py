@@ -30,7 +30,7 @@ def create_player():
     player_name = request.form.get("player_name")
     player_id = request.form.get("player_id")
     insert_player = "insert into players (player_id, name) values (%s, %s)"
-    insert_player_param = (player_name, player_id)
+    insert_player_param = (player_id, player_name)
     while True:
         try:
             cursor.execute(insert_player, insert_player_param)
