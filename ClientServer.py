@@ -28,8 +28,9 @@ def get_playerid():
 @app.route("/create_player", methods=["POST"])
 def create_player():
     player_name = request.form.get("player_name")
-    insert_player = "insert into players (name) values (%s)"
-    insert_player_param = (player_name, )
+    player_id = request.form.get("player_id")
+    insert_player = "insert into players (player_id, name) values (%s, %s)"
+    insert_player_param = (player_name, player_id)
     while True:
         try:
             cursor.execute(insert_player, insert_player_param)
