@@ -16,6 +16,9 @@ cursor = conn.cursor(dictionary=True)
 def start_game():
     # 首先需要对该局游戏创建麻将list
     # 为每位玩家发牌 
+    # 返回json
+    # player1: 麻将list
+    # player2: 麻将list
     pass
 
 @app.route("/next")

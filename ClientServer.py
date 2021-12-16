@@ -1,8 +1,12 @@
 from flask.wrappers import Request
 import mysql.connector
 from flask import Flask, request, jsonify, json
+import redis
 
 app = Flask(__name__)
+
+pool = redis.ConnectionPool(host='localhost', port=6379, decode_responses=True)
+r = redis.Redis(host='localhost', port=6379, decode_responses=True)  
 
 conn = mysql.connector.connect(
   host="localhost",       
@@ -66,20 +70,25 @@ def coming_into_table():
     # after receiving the post, player number + 1s
     table_id = request.form.get("table_id")
     player_id = request.form.get("player_id")
-    query_player_num = "select players_num from mj_tables where table_id = %s;"
-    query_player_num_param = (table_id, )
-    while True:
-        try:
-            cursor.execute(query_player_num, query_player_num_param)
-            break
-        except Exception:
-            conn.ping(True)
-    player_num_results = cursor.fetchall()
-    player_num = player_num_results[0]["players_num"]
+    # query_player_num = "select players_num from mj_tables where table_id = %s;"
+    # query_player_num_param = (table_id, )
+    redis_table_key = "table" + table_id
+    
+    # while True:
+    #     try:
+    #         cursor.execute(query_player_num, query_player_num_param)
+    #         break
+    #     except Exception:
+    #         conn.ping(True)
+    # player_num_results = cursor.fetchall()
+    # player_num = player_num_results[0]["players_num"]
+    player_num = r.get(redis_table_key)
     if (player_num == 4):
         return jsonify(message="The table is full, sorry.", status = "ERROR")
-    player_num += 1
+    # player_num += 1
 
+    r.incr(redis_table_key)
+    player_num = r.get(redis_table_key)
     update_player_num = "update mj_tables set players_num = %s where table_id = %s;"
     update_player_num_param = (player_num, table_id)
     while True:
@@ -107,17 +116,21 @@ def coming_into_table():
 def leaving_tables():
     table_id = request.form.get("table_id")
     player_id = request.form.get("player_id")
-    query_player_num = "select players_num from mj_tables where table_id = %s;"
-    query_player_num_param = (table_id, )
-    while True:
-        try:
-            cursor.execute(query_player_num, query_player_num_param)
-            break
-        except Exception:
-            conn.ping(True)
-    player_num_results = cursor.fetchall()
-    player_num = player_num_results[0]["players_num"]
-    player_num -= 1
+    redis_table_key = "table" + table_id
+    # query_player_num = "select players_num from mj_tables where table_id = %s;"
+    # query_player_num_param = (table_id, )
+    # while True:
+    #     try:
+    #         cursor.execute(query_player_num, query_player_num_param)
+    #         break
+    #     except Exception:
+    #         conn.ping(True)
+    # player_num_results = cursor.fetchall()
+    # player_num = player_num_results[0]["players_num"]
+    # player_num -= 1
+
+    r.decr(redis_table_key)
+    player_num = r.get(redis_table_key)
     update_player_num = "update mj_tables set players_num = %s where table_id = %s;"
     update_player_num_param = (player_num, table_id)
     while True:
