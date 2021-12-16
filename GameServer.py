@@ -30,7 +30,7 @@ def start_game():
 
     redis_table_key = "table" + table_id
     player_num = r.get(redis_table_key)
-    if(player_num < 4):
+    if(int(player_num) < 4):
         return jsonify(message="wait until 4 players.", status = "ERROR")
     
     mj_list = []
@@ -97,17 +97,18 @@ def next():
     # 出牌，删除改牌在list中的位置
     r.lrem(redis_player_order_key, 0, mj)
     
-    if player_order == 4:
-        player_order = 1
+    player_order_int = int(player_order)
+    if int(player_order) == 4:
+        player_order_int = 1
     else:
-        player_order += 1
+        player_order_int += 1
     
     # 给下一位玩家发一张牌
-    redis_newplayer_key = "mj" + table_id + "player" + player_order
+    redis_newplayer_key = "mj" + table_id + "player" + player_order_int
     r.rpush(redis_newplayer_key, r.rpop(redis_mj_key))
 
     json_dict = {}
-    json_dict["order"] = player_order
+    json_dict["order"] = player_order_int
     json_str = json.dumps(json_dict)
 
     return json_str
