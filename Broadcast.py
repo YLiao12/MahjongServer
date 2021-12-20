@@ -1,0 +1,17 @@
+from flask  import Flask,  render_template
+from flask_socketio import SocketIO, join_room, leave_room, send, emit
+
+app = Flask(__name__)
+app.config['SECRET_KEY'] =  'secret!'
+socketio =  SocketIO(app)
+
+@socketio.on('mj') 
+def my_event_1_handler(data):
+    mj = data["mj"]
+    room = data["room"]
+    join_room(room)
+
+    emit('mj', mj, room = room)
+
+if __name__ ==  '__main__':
+    socketio.run(app, host = '0.0.0.0', port='8085')
