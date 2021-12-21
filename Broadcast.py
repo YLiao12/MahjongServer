@@ -7,8 +7,10 @@ socketio = SocketIO(app)
 
 @socketio.on('mj') 
 def my_event_1_handler(data):
-    mj = data["mj"]
-    room = data["room"]
+    mj = data['mj']
+    room = data['room']
+    print(mj)
+    print(room)
     join_room(room)
     emit('mj', mj, room = room)
 
