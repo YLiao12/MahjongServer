@@ -19,8 +19,8 @@ def on_join(data):
     room = data['room']
     player_num = data['playerNum']
     join_room(room)
-    if player_num == 3:
-        emit('start_game', data,  room = room)
+    # if player_num == 3:
+      #   emit('start_game', data,  room = room)
     # send(username + ' has entered the room.', room=room)
 
 @socketio.on('leave')
