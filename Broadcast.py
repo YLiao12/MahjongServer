@@ -14,6 +14,28 @@ def my_event_1_handler(data):
     join_room(room)
     emit('mj', mj, room = room)
 
+@socketio.on('join')
+def on_join(data):
+    room = data['room']
+    join_room(room)
+    # send(username + ' has entered the room.', room=room)
+
+@socketio.on('leave')
+def on_join(data):
+    room = data['room']
+    leave_room(room)
+    # send(username + ' has entered the room.', room=room)
+
+@socketio.on('start_game')
+def start_game(data):
+    room = data['room']
+    emit('start_game', data,  room = room)
+    pass
+
+@socketio.on('next')
+def next():
+    pass
+
 @socketio.on('connect')
 def test_connect():
     print('Client connected')
