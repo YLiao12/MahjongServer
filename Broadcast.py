@@ -1,5 +1,5 @@
 from flask  import Flask,  render_template
-from flask_socketio import SocketIO, join_room, leave_room, send, emit
+from flask_socketio import SocketIO, join_room, leave_room, rooms, send, emit
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] =  'secret!'
@@ -17,18 +17,23 @@ def my_event_1_handler(data):
 @socketio.on('join')
 def on_join(data):
     room = data['room']
+    player_num = data['playerNum']
     join_room(room)
+    if player_num == 3:
+        emit('start_game', data,  room = room)
     # send(username + ' has entered the room.', room=room)
 
 @socketio.on('leave')
-def on_join(data):
+def on_leave(data):
     room = data['room']
+    print(room)
     leave_room(room)
     # send(username + ' has entered the room.', room=room)
 
 @socketio.on('start_game')
 def start_game(data):
     room = data['room']
+    print(room)
     emit('start_game', data,  room = room)
     pass
 
