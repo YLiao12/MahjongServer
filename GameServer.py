@@ -105,10 +105,12 @@ def next():
     
     # 给下一位玩家发一张牌
     redis_newplayer_key = "mj" + table_id + "player" + str(player_order_int)
-    r.rpush(redis_newplayer_key, r.rpop(redis_mj_key))
+    new_mj = r.rpop(redis_mj_key)
+    r.rpush(redis_newplayer_key, mj)
 
     json_dict = {}
     json_dict["order"] = player_order_int
+    json_dict["mj"] = new_mj
     json_str = json.dumps(json_dict)
 
     return json_str

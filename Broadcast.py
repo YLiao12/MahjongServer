@@ -38,7 +38,10 @@ def start_game(data):
     pass
 
 @socketio.on('next')
-def next():
+def next(data):
+    room = data['room']
+    
+    emit('next', data, room = room)
     pass
 
 @socketio.on('connect')
