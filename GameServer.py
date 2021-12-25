@@ -19,6 +19,32 @@ cursor = conn.cursor(dictionary=True)
 pool = redis.ConnectionPool(host='localhost', port=6379, decode_responses=True)
 r = redis.Redis(host='localhost', port=6379, decode_responses=True)  
 
+@app.route("/get_order", method=["POST"])
+def get_order():
+    # 获取房间内四位玩家的id （String)
+    
+    player_id = request.form.get("player_id")
+    table_id = request.form.get("table_id")
+
+    select_player = "select player_id from table_player where table_id = %s and still_in_table = '1'"
+    select_player_param = (table_id, )
+    while True:
+        try:
+            cursor.execute(select_player, select_player_param)
+            conn.commit()
+            break
+        except Exception:
+            conn.ping(True)
+    results = cursor.fetchall()
+    list = []
+    for single in results:
+        list.append(single["player_id"])
+    
+    json_dict = {}
+    json_dict["player_order"] = list.index(player_id)
+    return json.dumps(json_dict)
+
+
 @app.route("/start_game", methods=["POST"])
 def start_game():
     # 首先需要对该局游戏创建麻将list
