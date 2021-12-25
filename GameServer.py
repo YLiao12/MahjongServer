@@ -19,7 +19,7 @@ cursor = conn.cursor(dictionary=True)
 pool = redis.ConnectionPool(host='localhost', port=6379, decode_responses=True)
 r = redis.Redis(host='localhost', port=6379, decode_responses=True)  
 
-@app.route("/get_order", method=["POST"])
+@app.route("/get_order", methods=["POST"])
 def get_order():
     # 获取房间内四位玩家的id （String)
     
@@ -31,17 +31,18 @@ def get_order():
     while True:
         try:
             cursor.execute(select_player, select_player_param)
-            conn.commit()
             break
         except Exception:
             conn.ping(True)
     results = cursor.fetchall()
+    print(results)
     list = []
     for single in results:
+        print(1)
         list.append(single["player_id"])
     
     json_dict = {}
-    json_dict["player_order"] = list.index(player_id)
+    json_dict["player_order"] = list.index(player_id) + 1
     return json.dumps(json_dict)
 
 

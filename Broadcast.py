@@ -11,7 +11,7 @@ def my_event_1_handler(data):
     room = data['room']
     print(mj)
     print(room)
-    join_room(room)
+    # join_room(room)
     emit('mj', mj, room = room)
 
 @socketio.on('join')
