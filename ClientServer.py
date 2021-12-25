@@ -100,15 +100,21 @@ def coming_into_table():
             conn.ping(True)
 
     still_in_table = 1
+    insert_table_player = "insert into table1 (player_id) values (%s)"
+    insert_table_player_param = (player_id)
+
     if (int(table_id) == 1):
+        print(1)
         insert_table_player = "insert into table1 (player_id) values (%s)"
         insert_table_player_param = (player_id)
     
     if (int(table_id) == 2):
+        print(2)
         insert_table_player = "insert into table2 (player_id) values (%s)"
         insert_table_player_param = (player_id)
     
     if (int(table_id) == 3):
+        print(3)
         insert_table_player = "insert into table3 (player_id) values (%s)"
         insert_table_player_param = (player_id)
 
@@ -169,7 +175,7 @@ def leaving_tables():
     if (int(table_id) == 3):
         delete_table_player = "delete from table3 where player_id = %s"
         delete_table_player_param = (player_id)
-        
+
     while True:
         try:
             cursor.execute(delete_table_player, delete_table_player_param)
