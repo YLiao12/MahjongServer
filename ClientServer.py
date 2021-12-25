@@ -101,7 +101,7 @@ def coming_into_table():
 
     still_in_table = 1
 
-    insert_table_player = "insert into table_player (table_id, player_id, Still_in_table) values (%s)"
+    insert_table_player = "insert into table_player (table_id, player_id, Still_in_table) values (%s, %s, %s)"
     insert_table_player_param = (table_id, player_id, still_in_table)
 
     # if (int(table_id) == 1):
