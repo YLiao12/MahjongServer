@@ -101,20 +101,23 @@ def coming_into_table():
 
     still_in_table = 1
 
-    if (int(table_id) == 1):
-        print(1)
-        insert_table_player = "insert into table1 (player_id) values (%s)"
-        insert_table_player_param = (player_id, )
+    insert_table_player = "insert into table_player (table_id, player_id, Still_in_table) values (%s)"
+    insert_table_player_param = (table_id, player_id, still_in_table)
+
+    # if (int(table_id) == 1):
+    #     print(1)
+    #     insert_table_player = "insert into table1 (player_id) values (%s)"
+    #     insert_table_player_param = (player_id, )
     
-    if (int(table_id) == 2):
-        print(2)
-        insert_table_player = "insert into table2 (player_id) values (%s)"
-        insert_table_player_param = (player_id, )
+    # if (int(table_id) == 2):
+    #     print(2)
+    #     insert_table_player = "insert into table2 (player_id) values (%s)"
+    #     insert_table_player_param = (player_id, )
     
-    if (int(table_id) == 3):
-        print(3)
-        insert_table_player = "insert into table3 (player_id) values (%s)"
-        insert_table_player_param = (player_id, )
+    # if (int(table_id) == 3):
+    #     print(3)
+    #     insert_table_player = "insert into table3 (player_id) values (%s)"
+    #     insert_table_player_param = (player_id, )
 
     while True:
         try:
@@ -156,27 +159,27 @@ def leaving_tables():
         except Exception:
             conn.ping(True)
     
-    # update_table_player = "update table_player set still_in_table = 0 where table_id = %s and player_id = %s "
-    # update_table_player_param = (table_id, player_id)
+    update_table_player = "update table_player set still_in_table = 0 where table_id = %s and player_id = %s "
+    update_table_player_param = (table_id, player_id)
 
     # delete_table_player = "delete from %s where player_id = %s"
     # delete_table_player_param = (redis_table_key, player_id)
 
-    if (int(table_id) == 1):
-        delete_table_player = "delete from table1 where player_id = %s"
-        delete_table_player_param = (player_id, )
+    # if (int(table_id) == 1):
+    #     delete_table_player = "delete from table1 where player_id = %s"
+    #     delete_table_player_param = (player_id, )
     
-    if (int(table_id) == 2):
-        delete_table_player = "delete from table2 where player_id = %s"
-        delete_table_player_param = (player_id, )
+    # if (int(table_id) == 2):
+    #     delete_table_player = "delete from table2 where player_id = %s"
+    #     delete_table_player_param = (player_id, )
     
-    if (int(table_id) == 3):
-        delete_table_player = "delete from table3 where player_id = %s"
-        delete_table_player_param = (player_id, )
+    # if (int(table_id) == 3):
+    #     delete_table_player = "delete from table3 where player_id = %s"
+    #     delete_table_player_param = (player_id, )
 
     while True:
         try:
-            cursor.execute(delete_table_player, delete_table_player_param)
+            cursor.execute(update_table_player, update_table_player_param)
             conn.commit()
             break
         except Exception:
