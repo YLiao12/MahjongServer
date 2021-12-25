@@ -49,5 +49,11 @@ def test_connect():
     print('Client connected')
     emit('my response', {'data': 'Connected'})
 
+@socketio.on('win')
+def win(data):
+    room = data['room']
+    print(room)
+    emit('win', data,  room = room)
+
 if __name__ ==  '__main__':
     socketio.run(app, host = '0.0.0.0', port='8085', debug = True)

@@ -152,10 +152,23 @@ def peng():
     # 改变出牌顺序
     pass
 
-@app.route("/win")
+@app.route("/win", methods=["POST"])
 def win():
     # 开始下一回合，应该和start_game类似
-    pass
+    table_id = request.form.get("table_id")
+    redis_mj_key = "mj" + table_id 
+    redis_player1_key = "mj" + table_id + "player1"
+    redis_player2_key = "mj" + table_id + "player2"
+    redis_player3_key = "mj" + table_id + "player3"
+    redis_player4_key = "mj" + table_id + "player4"
+
+    r.delete(redis_mj_key)
+    r.delete(redis_player1_key)
+    r.delete(redis_player2_key)
+    r.delete(redis_player3_key)
+    r.delete(redis_player4_key)
+
+    return jsonify(status="OK")
 
 
 if __name__ == "__main__":
