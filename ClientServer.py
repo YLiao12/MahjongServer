@@ -13,6 +13,7 @@ conn = mysql.connector.connect(
   user="mahjong",    
   passwd="mahjongpsw",   
   database = "mahjongdb",
+  autocommit=True
 )
 cursor = conn.cursor(dictionary = True)
 

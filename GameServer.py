@@ -13,6 +13,7 @@ conn = mysql.connector.connect(
     user="mahjong",
     passwd="mahjongpsw",
     database="mahjongdb",
+    autocommit=True
 )
 cursor = conn.cursor(dictionary=True)
 
@@ -31,6 +32,7 @@ def get_order():
     while True:
         try:
             cursor.execute(select_player, select_player_param)
+            # conn.commit()
             break
         except Exception:
             conn.ping(True)
